@@ -1,4 +1,4 @@
-import sys, numpy
+import sys, numpy, time
     
 from netCDF4 import Dataset , netcdftime , num2date
 #TODO change variable names to something more obvious like year/month/etc
@@ -37,24 +37,16 @@ def AverageDataSet(ncdata):
     for i in range(0,int(len(str_time)/12),12):
         years.append(str_time[i:i+11])
 
-    AverageValuesDS= numpy.zeros((2,2,12),float)
-    for i in range(0,2):  #LONG
-        print ("LONG: %d" % i)
+    AverageValuesDS= numpy.zeros(( len(ncdata.variables['lon']),len(ncdata.variables['lat']),12),float)
+    for i in range(0,len(ncdata.variables['lon'])): #LON
         for j in range(0,len(ncdata.variables['lat'])): #LAT
-            print ("LAT: %d" % j)
-            for M in range(0,11):   #MONTHS
-                print ("Month:: %d" % M)
+            for M in range(0,12):   #MONTHS
                 sumOfMonths=0
                 for Y in range(0,len(years)-1):  #YEARS
-                    print ("Year: %d" % Y)
                     sumOfMonths = sumOfMonths + temp[M+11+12*Y][j][i]
-                    print ("sumOfMonths: %d" %sumOfMonths ) 
-                    print ("Temp: %d" % int( temp[M+11+12*Y][j][i]))
-                    
-                    
+
                 AverageValuesDS[i][j][M] = sumOfMonths/(Y+1) 
-                print("avergeForMonth %d" % int(AverageValuesDS[i][j][M]))
-                print("\n")
+
     return AverageValuesDS
                  
     
@@ -66,8 +58,12 @@ if __name__ == "__main__":
     DS = Dataset(datafile)
     
     #Preprocess file - average it
+    st=time.time()
     AveragedTemps=AverageDataSet(DS)
-    print (AveragedTemps))
+    et=time.time()
+    
+    print (len(AveragedTemps))
+    print("time taken: %d" %(et-st))
 
 
 
