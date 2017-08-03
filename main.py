@@ -37,21 +37,15 @@ def AverageDataSet(ncdata):
     for i in range(0,int(len(str_time)/12),12):
         years.append(str_time[i:i+11])
 
-
-#    averagedTemps=np.arange(12)
-#    for i in range(0,len(ncdata.variables['lon'])):  #LONG
     AverageValuesDS= numpy.zeros((2,2,12),float)
     for i in range(0,2):  #LONG
         print ("LONG: %d" % i)
-#        for j in range(0,len(ncdata.variables['lat'])): #LAT
-        for j in range(0,2): #LAT
+        for j in range(0,len(ncdata.variables['lat'])): #LAT
             print ("LAT: %d" % j)
             for M in range(0,11):   #MONTHS
-            #for M in range(0,2):   #MONTHS
                 print ("Month:: %d" % M)
                 sumOfMonths=0
-                #for Y in range(0,len(years)-1):  #YEARS
-                for Y in range(0,2):  #YEARS
+                for Y in range(0,len(years)-1):  #YEARS
                     print ("Year: %d" % Y)
                     sumOfMonths = sumOfMonths + temp[M+11+12*Y][j][i]
                     print ("sumOfMonths: %d" %sumOfMonths ) 
@@ -73,7 +67,7 @@ if __name__ == "__main__":
     
     #Preprocess file - average it
     AveragedTemps=AverageDataSet(DS)
-    print (AveragedTemps)
+    print (AveragedTemps))
 
 
 
